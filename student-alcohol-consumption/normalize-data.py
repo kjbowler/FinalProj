@@ -35,7 +35,7 @@ def print_counts(data, cols):
     for col in cols: print(str(col) + ": " + str(get_count(data, col)))    
 
 # setup
-data = pd.read_csv("combData.csv")
+data = pd.read_csv("numericData.csv")
 cols_to_normalize = ["Dalc_y"] # for some reason we can only normalize on on col???
 
 # Print the current counts

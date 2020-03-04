@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import accuracy_score
 
-combData = pd.read_csv("combData.csv")
+combData = pd.read_csv("combData-normal.csv")
 
 y = combData.G3_x
 X = combData[combData.loc[:, ['Dalc_x', 'Walc_x']]] 

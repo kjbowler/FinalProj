@@ -84,5 +84,10 @@ yesno(combData.activities_y)
 yesno(combData.higher_y)
 yesno(combData.romantic_y)
 
-print(combData)
+combData["guardian_x"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
+combData["guardian_y"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
+combData["Mjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
+combData["Fjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
+combData["reason"].replace({"course": "0", "other": "1", "reputation": "2", "home": "3"}, inplace=True)
+
 combData.to_csv("numericData.csv")
