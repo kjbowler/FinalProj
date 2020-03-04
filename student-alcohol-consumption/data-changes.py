@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-#################################################
+##################################################################################################
 #Merge Data
 mathData = pd.read_csv("student-mat.csv")
 portData = pd.read_csv("student-por.csv")
@@ -11,10 +11,10 @@ combData = pd.merge(mathData,portData,on=["school","sex","age","address","famsiz
 
 # Export new DF to CSV
 combData.to_csv("combData.csv")
-#################################################
+##################################################################################################
 
 
-#################################################
+##################################################################################################
 #Change all data to numeric values
 #school
 countSchool = 0
@@ -86,3 +86,4 @@ yesno(combData.romantic_y)
 
 print(combData)
 combData.to_csv("numericData.csv")
+##################################################################################################

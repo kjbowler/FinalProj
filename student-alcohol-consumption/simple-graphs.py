@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-combData = pd.read_csv("combData.csv")
+combData = pd.read_csv("numericData.csv")
 unique = combData.Dalc_x.unique()
 findMax = []
 for x in unique:
