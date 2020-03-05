@@ -14,6 +14,4 @@ clf_0 = LinearRegression().fit(X, y)
 pred_y_0 = clf_0.predict(X)
 print(accuracy_score(pred_y_0, y))
 
-
-
 plt.show()

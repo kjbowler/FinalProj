@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-#################################################
+##################################################################################################
 #Merge Data
 mathData = pd.read_csv("student-mat.csv")
 portData = pd.read_csv("student-por.csv")
@@ -11,10 +11,10 @@ combData = pd.merge(mathData,portData,on=["school","sex","age","address","famsiz
 
 # Export new DF to CSV
 combData.to_csv("combData.csv")
-#################################################
+##################################################################################################
 
 
-#################################################
+##################################################################################################
 #Change all data to numeric values
 #school
 countSchool = 0
@@ -84,6 +84,7 @@ yesno(combData.activities_y)
 yesno(combData.higher_y)
 yesno(combData.romantic_y)
 
+<<<<<<< HEAD
 combData["guardian_x"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
 combData["guardian_y"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
 combData["Mjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
@@ -91,3 +92,8 @@ combData["Fjob"].replace({"at_home": "0", "health": "1", "services": "2", "teach
 combData["reason"].replace({"course": "0", "other": "1", "reputation": "2", "home": "3"}, inplace=True)
 
 combData.to_csv("numericData.csv")
+=======
+print(combData)
+combData.to_csv("numericData.csv")
+##################################################################################################
+>>>>>>> updates

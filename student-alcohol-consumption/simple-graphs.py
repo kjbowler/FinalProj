@@ -8,6 +8,7 @@ dataY = combData.drop(columns = ['guardian_x', 'traveltime_x', 'studytime_x', 'f
 #print(combData.shape, dataX.shape, dataY.shape)
 uniqueX = [0,1]
 uniqueY = [0,1]
+
 findMax = []
 avgX = []
 avgY = []
