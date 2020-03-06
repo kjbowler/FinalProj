@@ -1,8 +1,9 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from normalizedata import normal
 
-#################################################
+##################################################################################################
 #Merge Data
 mathData = pd.read_csv("student-mat.csv")
 portData = pd.read_csv("student-por.csv")
@@ -11,10 +12,10 @@ combData = pd.merge(mathData,portData,on=["school","sex","age","address","famsiz
 
 # Export new DF to CSV
 combData.to_csv("combData.csv")
-#################################################
+##################################################################################################
 
 
-#################################################
+##################################################################################################
 #Change all data to numeric values
 #school
 countSchool = 0
@@ -90,4 +91,20 @@ combData["Mjob"].replace({"at_home": "0", "health": "1", "services": "2", "teach
 combData["Fjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
 combData["reason"].replace({"course": "0", "other": "1", "reputation": "2", "home": "3"}, inplace=True)
 
-combData.to_csv("numericData.csv")
+def pass_nopass(col):
+    for x in range(len(col)):
+        if col[x] > 14:
+            col[x] = 1
+        else:
+            col[x] = 0
+    return col
+
+combData["G3_x"] = pass_nopass(combData["G3_x"])
+combData["G3_y"] = pass_nopass(combData["G3_y"])
+
+normal_x = normal("G3_x")
+normal_y = normal("G3_y")
+
+normal_x.to_csv("DataX.csv")
+normal_y.to_csv("DataY.csv")
+
