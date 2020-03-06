@@ -63,9 +63,9 @@ def yesno(col):
     count = 0
     for x in col:
         if x == 'yes':
-            col[count] = 0
-        if x == 'no':
             col[count] = 1
+        if x == 'no':
+            col[count] = 0
         count = count + 1
 
 

@@ -114,6 +114,18 @@ print(tracB)
 print(max_0)
 print(max_1)
 
+print(dataXX_test)
+
 finthresh_0 = threshold_predictions(pred_y_0, tracA)
 finthresh_1 = threshold_predictions(pred_y_1, tracB)
 
+df0 = pd.DataFrame(data=finthresh_0.flatten())
+df1 = pd.DataFrame(data=finthresh_1.flatten())
+
+#print(df0)
+# combA = pd.concat([dataXX_test, df0], axis = 1)
+# combB = pd.concat([dataYX_test, df1], axis = 1)
+
+#combA = dataXX_test.join(df0)
+
+#print(combA)
