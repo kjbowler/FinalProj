@@ -55,38 +55,42 @@ def false_positive_rate(y, y_hat):
     TPR = FP/(FP + TN)
     return TPR
 
-DataXCSV = pd.read_csv("DataX.csv")
-DataYCSV = pd.read_csv("DataY.csv")
-dataXX = DataXCSV.drop(columns = ['guardian_y', 'traveltime_y', 'studytime_y', 'failures_y', 'schoolsup_y', 'famsup_y', 'paid_y', 'activities_y', 'higher_y', 'freetime_y', 'goout_y', 'Dalc_y', 'Walc_y', 'health_y', 'absences_y', 'G1_y', 'G2_y', 'G3_y', 'G3_x'])
-dataXY = DataXCSV['G3_x']
-dataYX = DataYCSV.drop(columns = ['guardian_x', 'traveltime_x', 'studytime_x', 'failures_x', 'schoolsup_x', 'famsup_x', 'paid_x', 'activities_x', 'higher_x', 'freetime_x', 'goout_y', 'Dalc_x', 'Walc_x', 'health_x', 'absences_x', 'G1_x', 'G2_x', 'G3_x', 'G3_y'])
-dataYY = DataYCSV['G3_y']
+CSV_Math = pd.read_csv("DataX.csv")
+CSV_Port = pd.read_csv("DataY.csv")
+math_X = CSV_Math.drop(columns = ['guardian_y', 'traveltime_y', 'studytime_y', 'failures_y', 'schoolsup_y', 'famsup_y', 'paid_y', 'activities_y', 'higher_y', 'freetime_y', 'goout_y', 'Dalc_y', 'Walc_y', 'health_y', 'absences_y', 'G1_y', 'G2_y', 'G3_y', 'G3_x'])
+math_Y = CSV_Math['G3_x']
+port_X = CSV_Port.drop(columns = ['guardian_x', 'traveltime_x', 'studytime_x', 'failures_x', 'schoolsup_x', 'famsup_x', 'paid_x', 'activities_x', 'higher_x', 'freetime_x', 'goout_y', 'Dalc_x', 'Walc_x', 'health_x', 'absences_x', 'G1_x', 'G2_x', 'G3_x', 'G3_y'])
+port_Y = CSV_Port['G3_y']
 
-dataXX_train, dataXX_test, dataXY_train, dataXY_test = train_test_split(dataXX, dataXY, test_size=0.2)
-dataYX_train, dataYX_test, dataYY_train, dataYY_test = train_test_split(dataYX, dataYY, test_size=0.2)
+math_X_prot = math_X.drop(columns = ['sex', 'failures_x', 'Dalc_x', 'Walc_x', 'G1_x', 'G2_x'])
+math_Y_prot = math_Y
+port_X_prot = port_X.drop(columns = ['sex', 'failures_y', 'Dalc_y', 'Walc_y', 'G1_y', 'G2_y'])
+port_Y_prot = port_Y
+dataA = CSV_Port['sex']
 
-clf_0 = LinearRegression().fit(dataXX_train, dataXY_train)
-pred_y_0 = clf_0.predict(dataXX_test)
+math_X_train, math_X_test, math_Y_train, math_Y_test = train_test_split(math_X, math_Y, test_size=0.2)
+port_X_train, port_X_test, port_Y_train, port_Y_test = train_test_split(port_X, port_Y, test_size=0.2)
 
-clf_1 = LinearRegression().fit(dataYX_train, dataYY_train)
-pred_y_1 = clf_1.predict(dataYX_test)
+math_X_prot_train, math_X_prot_test, math_Y_prot_train, math_Y_prot_test = train_test_split(math_X_prot, math_Y_prot, test_size=0.2)
+port_X_prot_train, port_X_prot_test, port_Y_prot_train, port_Y_prot_test = train_test_split(port_X_prot, port_Y_prot, test_size=0.2)
 
-pred_y = np.array(dataXY_test)
-pred_y1 = np.array(dataYY_test)
+clf_0 = LinearRegression().fit(math_X_train, math_Y_train)
+pred_y_0 = clf_0.predict(math_X_test)
 
-tpr_A, fpr_A = compute_roc_curve(pred_y, pred_y_0, 100)
-tpr_B, fpr_B = compute_roc_curve(pred_y1, pred_y_1, 100)
+clf_1 = LinearRegression().fit(port_X_train, port_Y_train)
+pred_y_1 = clf_1.predict(port_X_test)
 
-# x_label = 'FPR'
-# y_label = 'TPR'
-# plt.xlabel(x_label)
-# plt.ylabel(y_label)
+clf_0_prot = LinearRegression().fit(math_X_prot_train, math_Y_prot_train)
+pred_y_0_prot = clf_0_prot.predict(math_X_prot_test)
 
-# plt.plot(fpr_A, tpr_A, color = "m", marker = ".", label = "A")
-# plt.plot(fpr_B, tpr_B, color = "c", marker = ".", label = "B")
-# plt.legend()
-# plt.show()
+clf_1_prot = LinearRegression().fit(port_X_prot_train, port_Y_prot_train)
+pred_y_1_prot = clf_1_prot.predict(port_X_prot_test)
 
+pred_y = np.array(math_Y_test)
+pred_y1 = np.array(port_Y_test)
+
+pred_y_prot = np.array(math_Y_prot_test)
+pred_y1_prot = np.array(port_Y_prot_test)
 
 
 trac = np.arange(0, 1, 1/100)
@@ -94,13 +98,21 @@ max_0 = 0
 max_1 = 0
 tracA = 0
 tracB = 0
+max_0_prot = 0
+max_1_prot = 0
+tracA_prot = 0
+tracB_prot = 0
 for x in trac:
     #print(x)
     thresh_0 = threshold_predictions(pred_y_0, x)
     thresh_1 = threshold_predictions(pred_y_1, x)
+    thresh_0_prot = threshold_predictions(pred_y_0_prot, x)
+    thresh_1_prot = threshold_predictions(pred_y_1_prot, x)
     
     acc_0 = (accuracy(pred_y, thresh_0))
     acc_1 = (accuracy(pred_y1, thresh_1))
+    acc_0_prot = (accuracy(pred_y_prot, thresh_0_prot))
+    acc_1_prot = (accuracy(pred_y1_prot, thresh_1_prot))
     
     if acc_0 > max_0:
         tracA = x
@@ -108,24 +120,61 @@ for x in trac:
     if acc_1 > max_1:
         tracB = x
         max_1 = acc_1
+    if acc_0_prot > max_0_prot:
+        tracA_prot = x
+        max_0_prot = acc_0_prot
+    if acc_1_prot > max_1_prot:
+        tracB_prot = x
+        max_1_prot = acc_1_prot
 
-print(tracA)
-print(tracB)
-print(max_0)
-print(max_1)
+print("Math threshold: ", tracA)
+print("Portuguese threshold: ", tracB)
+print("Math accuracy: ", max_0)
+print("Portuguese accuracy: ", max_1)
 
-print(dataXX_test)
+print("Protected Features Math threshold: ", tracA_prot)
+print("Protected Features Portuguese threshold: ", tracB_prot)
+print("Protected Features Math accuracy: ", max_0_prot)
+print("Protected Features Portuguese accuracy: ", max_1_prot)
 
-finthresh_0 = threshold_predictions(pred_y_0, tracA)
-finthresh_1 = threshold_predictions(pred_y_1, tracB)
 
-df0 = pd.DataFrame(data=finthresh_0.flatten())
-df1 = pd.DataFrame(data=finthresh_1.flatten())
+def split_on_feature(dataX, dataY, dataA, thresh):
+    rows_A = []
+    rows_B = []
+    for i in range(dataX.shape[0]):
+        if dataA[i] < thresh:
+            rows_A.append(i)
+        else:
+            rows_B.append(i)
+    
+    X_A = dataX[rows_A, :]
+    X_B = dataX[rows_B, :]
+    y_A = dataY[rows_A]
+    y_B = dataY[rows_B]
+    
+    return X_A, X_B, y_A, y_B  
 
-#print(df0)
-# combA = pd.concat([dataXX_test, df0], axis = 1)
-# combB = pd.concat([dataYX_test, df1], axis = 1)
 
-#combA = dataXX_test.join(df0)
+# X_A, X_B, y_A, y_B = split_on_feature(math_X_prot.values, math_Y_prot.values, dataA , .5)
+X_A, X_B, y_A, y_B = split_on_feature(port_X_prot.values, port_Y_prot.values, dataA , .5)
 
-#print(combA)
+# XA_score = clf_0_prot.predict(X_A)
+# XB_score = clf_0_prot.predict(X_B)
+XA_score = clf_1_prot.predict(X_A)
+XB_score = clf_1_prot.predict(X_B)
+
+tpr_A, fpr_A = compute_roc_curve(y_A, XA_score, 100)
+tpr_B, fpr_B = compute_roc_curve(y_B, XB_score, 100)
+
+x_label = 'FPR'
+y_label = 'TPR'
+plt.xlabel(x_label)
+plt.ylabel(y_label)
+
+plt.plot(fpr_A, tpr_A, color = "m", marker = ".", label = "Women (portuguese class)")
+plt.plot(fpr_B, tpr_B, color = "c", marker = ".", label = "Men (portuguese class)")
+# plt.plot(fpr_A, tpr_A, color = "m", marker = ".", label = "Weekend Alcohol Consumption Below 2 (portuguese class)")
+# plt.plot(fpr_B, tpr_B, color = "c", marker = ".", label = "Weekend Alcohol Consumption Above 2 (portuguese class)")
+plt.legend()
+plt.show()
+

@@ -17,90 +17,40 @@ combData.to_csv("combData.csv")
 
 ##################################################################################################
 #Change all data to numeric values
-#school
-countSchool = 0
-for x in combData['school']:
-    if x == 'GP':
-        combData.school[countSchool] = 0
-    if x == 'MS':
-        combData.school[countSchool] = 1
-    countSchool = countSchool + 1
 
-countSex = 0
-for x in combData['sex']:
-    if x == 'F':
-        combData.sex[countSex] = 0
-    if x == 'M':
-        combData.sex[countSex] = 1
-    countSex = countSex + 1
-
-countAddress = 0
-for x in combData['address']:
-    if x == 'U':
-        combData.address[countAddress] = 0
-    if x == 'R':
-        combData.address[countAddress] = 1
-    countAddress = countAddress + 1
-
-countFamsize = 0
-for x in combData['famsize']:
-    if x == 'GT3':
-        combData.famsize[countFamsize] = 0
-    if x == 'LE3':
-        combData.famsize[countFamsize] = 1
-    countFamsize = countFamsize + 1
-
-countPstatus = 0
-for x in combData['Pstatus']:
-    if x == 'A':
-        combData.Pstatus[countPstatus] = 0
-    if x == 'T':
-        combData.Pstatus[countPstatus] = 1
-    countPstatus = countPstatus + 1
-
-
-def yesno(col):
-    count = 0
-    for x in col:
-        if x == 'yes':
-            col[count] = 1
-        if x == 'no':
-            col[count] = 0
-        count = count + 1
-
-
-yesno(combData.schoolsup_x)
-yesno(combData.famsup_x)
-yesno(combData.paid_x)
-yesno(combData.activities_x)
-yesno(combData.nursery)
-yesno(combData.higher_x)
-yesno(combData.internet)
-yesno(combData.romantic_x)
-
-yesno(combData.schoolsup_y)
-yesno(combData.famsup_y)
-yesno(combData.paid_y)
-yesno(combData.activities_y)
-yesno(combData.higher_y)
-yesno(combData.romantic_y)
-
+combData["school"].replace({"GP": "0", "MS": "1"}, inplace=True)
+combData["sex"].replace({"M": "0", "F": "1"}, inplace=True)
+combData["address"].replace({"U": "0", "R": "1"}, inplace=True)
+combData["famsize"].replace({"GT3": "0", "LE3": "1"}, inplace=True)
+combData["Pstatus"].replace({"A": "0", "T": "1"}, inplace=True)
+combData["schoolsup_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["famsup_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["paid_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["activities_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["nursery"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["higher_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["internet"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["romantic_x"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["schoolsup_y"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["famsup_y"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["paid_y"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["activities_y"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["higher_y"].replace({"no": "0", "yes": "1"}, inplace=True)
+combData["romantic_y"].replace({"no": "0", "yes": "1"}, inplace=True)
 combData["guardian_x"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
 combData["guardian_y"].replace({"mother": "0", "father": "1", "other": "2"}, inplace=True)
 combData["Mjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
 combData["Fjob"].replace({"at_home": "0", "health": "1", "services": "2", "teacher": "3", "services": "4", "other": "5"}, inplace=True)
 combData["reason"].replace({"course": "0", "other": "1", "reputation": "2", "home": "3"}, inplace=True)
 
-def pass_nopass(col):
-    for x in range(len(col)):
-        if col[x] > 14:
-            col[x] = 1
-        else:
-            col[x] = 0
-    return col
 
-combData["G3_x"] = pass_nopass(combData["G3_x"])
-combData["G3_y"] = pass_nopass(combData["G3_y"])
+combData.loc[combData['G3_x'] < 14, 'G3_x'] = 0
+combData.loc[combData['G3_x'] >= 14, 'G3_x'] = 1
+combData.loc[combData['G3_y'] < 14, 'G3_y'] = 0
+combData.loc[combData['G3_y'] >= 14, 'G3_y'] = 1
+
+combData.to_csv("numericData.csv")
+
 
 normal_x = normal("G3_x")
 normal_y = normal("G3_y")

@@ -20,7 +20,7 @@ for x in uniqueX:
     #newdfX = dataX[dataX["studytime_x"] == x]
     #newdfX = dataX[dataX["absences_x"] == x]
     #newdfX = dataX[dataX["paid_x"] == x]
-    #newdfX = dataX[dataX["internet"] == x]
+    newdfX = dataX[dataX["internet"] == x]
     avgX.append(newdfX["G3_x"].mean())
     trac.append(x)
     #newdfY= dataY[dataY["Walc_y"] == x]
@@ -28,7 +28,7 @@ for x in uniqueX:
     #newdfY = dataY[dataY["studytime_y"] == x]
     #newdfY = dataY[dataY["absences_y"] == x]
     #newdfY = dataY[dataY["paid_y"] == x]
-    #newdfY = dataY[dataY["internet"] == x]
+    newdfY = dataY[dataY["internet"] == x]
     avgY.append(newdfY["G3_y"].mean())
 
 x_label = 'Internet at Home'
